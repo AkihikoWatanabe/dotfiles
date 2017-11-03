@@ -155,9 +155,9 @@ nnoremap wq :wq<cr>
 " generate new tab
 nnoremap st :tabnew<cr>
 " move next tab
-nnoremap gt sn
+nnoremap sn gt
 " move previous tab
-nnoremap gT sp
+nnoremap sp gT
 
 " for Unite
 " show tab
