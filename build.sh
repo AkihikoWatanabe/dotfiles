@@ -85,8 +85,7 @@ git clone https://github.com/mollifier/anyframe.git
 #echo "bindkey '^x^r' anyframe-widget-execute-history" >> ~/.zshrc
 #echo "bindkey '^r' anyframe-widget-put-history" >> ~/.zshrc
 #echo "bindkey '^K' up-line-or-history		# move history up like vim" >> ~/.zshrc
-#echo "bindkey '^J' down-line-or-history	# move history down like vim" 
->> ~/.zshrc
+#echo "bindkey '^J' down-line-or-history	# move history down like vim" >> ~/.zshrc
 
 # for Neobundle
 mkdir -p ~/.vim/bundle
