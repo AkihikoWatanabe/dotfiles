@@ -87,3 +87,7 @@ git clone https://github.com/mollifier/anyframe.git
 #echo "bindkey '^K' up-line-or-history		# move history up like vim" >> ~/.zshrc
 #echo "bindkey '^J' down-line-or-history	# move history down like vim" 
 >> ~/.zshrc
+
+# for Neobundle
+mkdir -p ~/.vim/bundle
+git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
