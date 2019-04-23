@@ -2,7 +2,7 @@
 set number 			" show line number
 set title			" set terminal title 
 set cursorline			" Add a background color to the cursoe line
-set cursorcolumn		" Add a background color to the cursor column
+"set cursorcolumn		" Add a background color to the cursor column
 set showmatch  			" highlight the corresponding parenthesis
 set matchtime=5			" Show corresponding parentheses quickly
 set ruler			" Show ruler
@@ -32,43 +32,74 @@ set hidden			" Move the buffer even if there are unsaved changes
 
 filetype off
 
-" NeoBundle
-if has('vim_starting')
-	set rtp+=$HOME/.vim/bundle/neobundle.vim/
-endif
-call neobundle#begin(expand('~/.vim/bundle'))
-NeoBundleFetch 'Shougo/neobundle.vim'
+if &compatible
+ set nocompatible
+ endif
+ " Add the dein installation directory into runtimepath
+ set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 
-NeoBundle 'Shougo/neocomplcache.git'
-NeoBundle 'Shougo/neosnippet'
-NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'Shougo/unite.vim.git'
-NeoBundle 'davidhalter/jedi-vim'
-NeoBundle 'scrooloose/syntastic'
-NeoBundleLazy "nvie/vim-flake8", {
-	\ "autoload": {
-	\ "filetypes": ["python", "python3", "djangohtml"]	
-	\ }}	
-NeoBundle 'Lokaltog/powerline', { 'rtp': 'powerline/bindings/vim'}
+if dein#load_state('~/.cache/dein')
+  call dein#begin('~/.cache/dein')
+
+
+   " プラグインリストを収めたTOMLファイル
+  let g:dein_dir = expand('~/.cache/dein')
+  let s:toml = g:dein_dir . '/dein.toml'
+  let s:lazy_toml = g:dein_dir . '/dein_lazy.toml'
+
+  " TOMLファイルにpluginを記述
+  call dein#load_toml(s:toml, {'lazy': 0})
+  call dein#load_toml(s:lazy_toml, {'lazy': 1})
+
+  call dein#add('~/.cache/dein')
+  call dein#add('Shougo/deoplete.nvim')
+  call dein#add('deoplete-plugins/deoplete-jedi')
+  if !has('nvim')
+    call dein#add('roxma/nvim-yarp')
+    call dein#add('roxma/vim-hug-neovim-rpc')
+  endif
+
+  "call dein#add('powerline/powerline', {'rtp': 'powerline/bindings/vim/'})
+  call dein#end()
+  call dein#save_state()
+endif
+
+if dein#check_install()
+  call dein#install()
+endif
+
+filetype plugin indent on
+syntax enable
+
+" for deocomplete
+imap <Nul> <C-Space>
+
+if !has('gui_running')
+  augroup term_vim_c_space
+    autocmd!
+    autocmd VimEnter * map <Nul> <C-Space>
+    autocmd VimEnter * map! <Nul> <C-Space>
+  augroup END
+endif
+
+" for indentline
+let g:indentLine_char = '|'
+
+" for easy align
+vmap <Enter> <Plug>(EasyAlign)
+
+" for vimfiler
+let g:vimfiler_as_default_explorer = 1
+
+" for flashy
+map y <Plug>(operator-flashy)
+nmap Y <Plug>(operator-flashy)$
 
 " for vim-powerline
 set laststatus=2	" Always display the statusline in all windows
 set showtabline=2	" Always display the tabline, even if there is only one tab
 set noshowmode		" Hide the default mode text(e.g. -- INSERT -- below the statusline)
-
-"NeoBundle 'Flake8-vim'
-"NeoBundle 'Townk/vim-autoclose'
-"NeoBundle 'git://github.com/kevinw/pyflakes-vim.git'
-
-call neobundle#end()
-filetype plugin indent on
-
-NeoBundleCheck
-
-" for PyFlake 
-"let g:PyFlakeOnWrite = 1
-"let g:PyFlakeCheckers = 'mccbe,pyflakes'
-"let g:PyFlakeDefaultComplexity=10
+let g:powerline_pycmd="python3"
 
 " for Syntastic
 let g:syntacstic_python_checkers = ['flake8']
